@@ -41,6 +41,18 @@ window.fetchCloudCredentials = async function() {
   return null;
 };
 
+window.saveCloudCredentials = async function(credsObj) {
+  if (!db) return false;
+  try {
+    await db.collection('settings').doc('admin_auth').set(credsObj);
+    console.log("🔥 Admin credentials synced live to Firebase Cloud Firestore:", credsObj.user);
+    return true;
+  } catch (e) {
+    console.warn("⚠️ Firestore auth save error:", e);
+    return false;
+  }
+};
+
 // Global Cloud Firestore Projects Helper Functions
 window.fetchCloudProjects = async function() {
   if (!db) return null;
