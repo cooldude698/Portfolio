@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Portal Router</title>
+  <script>
+    if (sessionStorage.getItem('aman_admin_auth') === 'true') {
+      window.location.href = 'admin-dashboard.html';
+    } else {
+      window.location.href = 'admin-login.html';
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>

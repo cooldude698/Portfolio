@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects Showcase | Aman Jain</title>
+  <meta name="description" content="Explore and upload web engineering projects, 3D graphics applications, and AI tools by Aman Jain." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- DotLottie Web Component Script -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=2000" />
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Custom Cursor Follower -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Background WebGL Canvas (Hyperspace Speedlines) -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link active">Projects</a>
+        <a href="socials.html" class="nav-link">Socials & Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cv.html" target="_blank" class="btn btn-outline cv-modal-trigger-btn" onclick="window.openCVModal(event)" title="View Aman Jain CV">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>View CV</span>
+        </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 100px;">
+    <!-- Projects Section -->
+    <section class="section projects-section" id="projects">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-tag">// MY PORTFOLIO</span>
+            <h2 class="section-title">All Projects</h2>
+            <p class="section-desc">Explore my full-stack web platforms, AI tools, and 3D engineering projects.</p>
+          </div>
+        </div>
+
+        <!-- Controls: Filter Pills & Search Bar -->
+        <div class="projects-controls glass-panel">
+          <div class="filter-pills" id="filterPills">
+            <button class="filter-pill active" data-filter="all">All Projects</button>
+            <button class="filter-pill" data-filter="Web App">Web Apps</button>
+            <button class="filter-pill" data-filter="3D / Creative">3D & WebGL</button>
+            <button class="filter-pill" data-filter="AI / Tools">AI & Tools</button>
+            <button class="filter-pill" data-filter="Mobile">Mobile</button>
+          </div>
+
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="projectSearchInput" placeholder="Search projects by name or stack..." />
+            <button id="clearSearchBtn" class="clear-search-btn" title="Clear Search"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+
+        <!-- Projects Grid Container -->
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Card 1: NutriLumen -->
+          <div class="project-card glass-panel">
+            <div class="project-thumb">
+              <img src="nutrilumen-preview.png" alt="NutriLumen – 360° Holistic Wellness Platform" loading="lazy" />
+              <span class="category-badge">Web App</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">NutriLumen – 360° Holistic Wellness Platform</h3>
+              <p class="project-desc">A 360° Holistic Wellness Initiative integrating Mind, Body & Soul. Features client meal planning, dietary analytics, and personalized wellness dashboards at thenutrilumen.com.</p>
+              <div class="project-tech">
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">UI/UX Design</span>
+              </div>
+              <div class="project-footer">
+                <div class="project-links">
+                  <a href="https://thenutrilumen.com" target="_blank" rel="noopener" class="project-link-btn" title="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="project-link-btn" title="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                  <button class="project-link-btn view-detail-btn" data-id="proj-1" title="Inspect Project Details"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Drishti AI -->
+          <div class="project-card glass-panel">
+            <div class="project-thumb">
+              <img src="drishti-preview.png" alt="Drishti AI – Crime Tracking & Intelligence Co-Pilot" loading="lazy" />
+              <span class="category-badge">AI / Tools</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">Drishti AI – Crime Tracking & Intelligence Co-Pilot</h3>
+              <p class="project-desc">Karnataka State Police Co-Pilot: Next-Gen AI Crime Intelligence Platform with live crime tracking, predictive analytics, 5,35,815+ MCCTNS records & digital FIR management at drishtiii.vercel.app.</p>
+              <div class="project-tech">
+                <span class="tech-chip">Python</span>
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">MongoDB</span>
+                <span class="tech-chip">AI Models</span>
+                <span class="tech-chip">REST APIs</span>
+              </div>
+              <div class="project-footer">
+                <div class="project-links">
+                  <a href="https://drishtiii.vercel.app" target="_blank" rel="noopener" class="project-link-btn" title="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="project-link-btn" title="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                  <button class="project-link-btn view-detail-btn" data-id="proj-2" title="Inspect Project Details"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Rawgenn Tech -->
+          <div class="project-card glass-panel">
+            <div class="project-thumb">
+              <img src="rawgenn-preview.png" alt="Rawgenn Tech – Talent & Engineering Platform" loading="lazy" />
+              <span class="category-badge">Web App</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">Rawgenn Tech – Talent & Engineering Platform</h3>
+              <p class="project-desc">RAWGENN – Talent, Curated. Quality, Guaranteed: Founded and independently built rawgenn.tech, connecting clients with elite engineering talent for end-to-end digital solutions.</p>
+              <div class="project-tech">
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">UI/UX Design</span>
+              </div>
+              <div class="project-footer">
+                <div class="project-links">
+                  <a href="https://rawgenn.tech" target="_blank" rel="noopener" class="project-link-btn" title="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="project-link-btn" title="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                  <button class="project-link-btn view-detail-btn" data-id="proj-3" title="Inspect Project Details"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-icon"><i class="fa-solid fa-folder-open"></i></div>
+          <h3>No Projects Match Your Search</h3>
+          <p>Try adjusting your search criteria or upload a new project to get started!</p>
+          <button class="btn btn-primary" id="emptyStateUploadBtn">
+            <i class="fa-solid fa-plus"></i> Upload Project
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="index.html" class="logo">
+          <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+        </a>
+        <p>&copy; 2026 Aman Jain. Pure Black & White Hyperspace Architecture.</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="admin-login.html" class="admin-cms-link" style="color: var(--text-muted); font-size: 0.85rem; margin-right: 20px; text-decoration: none;" title="Admin CMS Login">
+          <i class="fa-solid fa-lock"></i> Admin Portal
+        </a>
+        <a href="#projects" class="back-to-top-btn" title="Back to Top">
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: Project Detail Inspector -->
+  <div class="modal-overlay hidden" id="detailModal">
+    <div class="modal-card glass-panel detail-modal-card">
+      <button class="modal-close-btn" id="closeDetailModalBtn">&times;</button>
+      
+      <div class="detail-content" id="detailModalContent">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js?v=100000"></script>
+
+  <!-- JavaScript -->
+  <script src="app.js?v=100000"></script>
+</body>
+</html>

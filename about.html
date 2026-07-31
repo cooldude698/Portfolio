@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About & Skills | Aman Jain</title>
+  <meta name="description" content="Learn more about Aman Jain, engineering experience, statistics, and full-stack tech skills." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=2000" />
+
+  <!-- DotLottie Web Component Script -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Custom Cursor Follower -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Background WebGL Canvas (Hyperspace Speedlines) -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link active">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="socials.html" class="nav-link">Socials & Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cv.html" target="_blank" class="btn btn-outline cv-modal-trigger-btn" onclick="window.openCVModal(event)" title="View Aman Jain CV">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>View CV</span>
+        </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 100px;">
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// BIOGRAPHY & PHILOSOPHY</span>
+          <h2 class="section-title">Architecting Digital Possibilities</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card glass-panel">
+            <div class="about-bio">
+              <h3>Hello, I'm <span class="highlight">Aman Jain</span></h3>
+              <p>
+                Second-year B.Tech Computer Science student at <strong>Jain (Deemed-to-be University)</strong> with a CGPA of <strong>8.95</strong>. I have a strong foundation in programming and full-stack development, with hands-on experience building AI-integrated software products and founding <strong>Rawgenn Tech (rawgenn.tech)</strong>.
+              </p>
+              <p>
+                From engineering AI-driven crime tracking systems for the Karnataka Police to building intelligent college timetable scheduling algorithms, I thrive on applying problem-solving skills and modern software architecture to real-world impact.
+              </p>
+            </div>
+
+            <div class="about-actions">
+              <a href="socials.html" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Contact Me</span>
+              </a>
+              <a href="cv.html" target="_blank" class="btn btn-outline cv-modal-trigger-btn" onclick="window.openCVModal(event)">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>View Full CV</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div class="stat-value">8.95</div>
+              <div class="stat-label">B.Tech CGPA (Jain Univ)</div>
+            </div>
+
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
+              <div class="stat-value">8+</div>
+              <div class="stat-label">Events & Hackathons Won</div>
+            </div>
+
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-laptop-code"></i></div>
+              <div class="stat-value">12+</div>
+              <div class="stat-label">AI & Web Projects</div>
+            </div>
+
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
+              <div class="stat-value">Top 800</div>
+              <div class="stat-label">Scaler x Meta (32k+ Teams)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic Education Section -->
+    <section class="section education-section" id="education">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">// ACADEMICS</span>
+          <h2 class="section-title">Education History</h2>
+        </div>
+
+        <div class="specializations-grid">
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>B.Tech in Computer Science</h3>
+            <p><strong>Jain (Deemed-to-be University)</strong> • Bengaluru, India</p>
+            <p class="text-muted">CGPA: <strong>8.95</strong> | Expected Graduation: <strong>2029</strong></p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-school"></i></div>
+            <h3>Senior Secondary (12th), CBSE</h3>
+            <p><strong>Alpine Public School</strong> • Jhansi</p>
+            <p class="text-muted">Percentage: <strong>79%</strong> | Year: <strong>2024</strong></p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-book-open"></i></div>
+            <h3>Secondary (10th), CBSE</h3>
+            <p><strong>Delhi Public School</strong> • Aligarh</p>
+            <p class="text-muted">Percentage: <strong>80%</strong> | Year: <strong>2022</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Arsenal Section -->
+    <section class="section skills-section" id="skills">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-tag">// MY ARSENAL</span>
+          <h2 class="section-title">Technical Skills Matrix</h2>
+          <p class="section-desc">Languages, frameworks, databases, and engineering core concepts from my CV.</p>
+        </div>
+
+        <div class="skills-categories">
+          <!-- Languages & Frameworks -->
+          <div class="skill-category-card glass-panel">
+            <div class="category-header">
+              <i class="fa-solid fa-code category-icon"></i>
+              <h3>Languages & Web Frameworks</h3>
+            </div>
+            <div class="skills-tags">
+              <span class="skill-tag"><i class="fa-brands fa-python"></i> Python</span>
+              <span class="skill-tag"><i class="fa-brands fa-js"></i> JavaScript</span>
+              <span class="skill-tag"><i class="fa-solid fa-code"></i> C / C++</span>
+              <span class="skill-tag"><i class="fa-brands fa-java"></i> Java</span>
+              <span class="skill-tag"><i class="fa-brands fa-react"></i> React</span>
+              <span class="skill-tag"><i class="fa-solid fa-atom"></i> Next.js</span>
+              <span class="skill-tag"><i class="fa-brands fa-node-js"></i> Node.js & Express.js</span>
+              <span class="skill-tag"><i class="fa-solid fa-wind"></i> Tailwind CSS</span>
+            </div>
+          </div>
+
+          <!-- Databases & Concepts -->
+          <div class="skill-category-card glass-panel">
+            <div class="category-header">
+              <i class="fa-solid fa-server category-icon"></i>
+              <h3>Databases & Core Concepts</h3>
+            </div>
+            <div class="skills-tags">
+              <span class="skill-tag"><i class="fa-solid fa-database"></i> MongoDB</span>
+              <span class="skill-tag"><i class="fa-solid fa-table"></i> MySQL</span>
+              <span class="skill-tag"><i class="fa-solid fa-fire"></i> Firebase</span>
+              <span class="skill-tag"><i class="fa-solid fa-brain"></i> AI / LLM Integration</span>
+              <span class="skill-tag"><i class="fa-solid fa-diagram-project"></i> Data Structures & Algorithms</span>
+              <span class="skill-tag"><i class="fa-solid fa-cubes"></i> OOP</span>
+              <span class="skill-tag"><i class="fa-solid fa-network-wired"></i> REST APIs</span>
+              <span class="skill-tag"><i class="fa-solid fa-layer-group"></i> Full-Stack Development</span>
+            </div>
+          </div>
+
+          <!-- Tools & Platforms -->
+          <div class="skill-category-card glass-panel">
+            <div class="category-header">
+              <i class="fa-solid fa-screwdriver-wrench category-icon"></i>
+              <h3>Tools & Platforms</h3>
+            </div>
+            <div class="skills-tags">
+              <span class="skill-tag"><i class="fa-brands fa-git-alt"></i> Git & GitHub</span>
+              <span class="skill-tag"><i class="fa-brands fa-figma"></i> Figma UI/UX</span>
+              <span class="skill-tag"><i class="fa-solid fa-code"></i> VS Code</span>
+              <span class="skill-tag"><i class="fa-solid fa-paper-plane"></i> Postman</span>
+              <span class="skill-tag"><i class="fa-solid fa-cloud"></i> Vercel & Netlify</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements & Certifications -->
+    <section class="section achievements-section">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-tag">// HONORS & CERTIFICATIONS</span>
+          <h2 class="section-title">Achievements & Accolades</h2>
+        </div>
+
+        <div class="specializations-grid">
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h3>Winner of 7–8 College Events</h3>
+            <p>Competed and placed 1st across 7–8 college-level engineering and coding events against 50+ teams.</p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-medal"></i></div>
+            <h3>2nd Prize – CRCE Hackathon</h3>
+            <p>Won 2nd Prize at CRCE Entrepreneurship Hackathon, a multi-campus competition spanning 8 campuses.</p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-star"></i></div>
+            <h3>Top 800 – Scaler x Meta Hackathon</h3>
+            <p>Selected among top 800 teams from 32,000+ participants nationwide and advanced to the final round.</p>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="index.html" class="logo">
+          <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+        </a>
+        <p>&copy; 2026 Aman Jain. Pure Black & White Hyperspace Architecture.</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="admin-login.html" class="admin-cms-link" style="color: var(--text-muted); font-size: 0.85rem; margin-right: 20px; text-decoration: none;" title="Admin CMS Login">
+          <i class="fa-solid fa-lock"></i> Admin Portal
+        </a>
+        <a href="#about" class="back-to-top-btn" title="Back to Top">
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript -->
+  <script src="app.js?v=100000"></script>
+</body>
+</html>

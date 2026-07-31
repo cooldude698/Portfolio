@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Aman Jain Portfolio</title>
+  <meta name="description" content="Secure Admin Login Portal for Aman Jain." />
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Three.js 3D WebGL Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Core Design System CSS -->
+  <link rel="stylesheet" href="style.css?v=100001" />
+</head>
+<body class="dark-theme">
+
+  <!-- Interactive Three.js WebGL Canvas -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Custom Cursor Ring -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="socials.html" class="nav-link">Socials & Contact</a>
+      </nav>
+
+      <div class="nav-actions" style="display: flex; align-items: center; gap: 14px;">
+        <a href="cv.html" target="_blank" class="btn btn-outline cv-modal-trigger-btn" onclick="window.openCVModal(event)" title="View Aman Jain CV">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>View CV</span>
+        </a>
+
+        <span class="admin-nav-badge" style="position: relative; top: auto; right: auto; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.3); padding: 8px 16px; border-radius: var(--radius-full); font-size: 0.82rem; font-weight: 700; color: #ffffff; white-space: nowrap;">
+          <i class="fa-solid fa-shield-halved"></i> ADMIN AUTH
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 130px; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="container" style="max-width: 460px;">
+      <div class="admin-login-card glass-panel center" style="padding: 42px 36px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+        <div class="lock-icon-badge" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.6rem; color: #ffffff;">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <span class="section-tag" style="letter-spacing: 0.15em;">// ADMIN ACCESS CONTROL</span>
+        <h2 class="section-title" style="font-size: 2.1rem; margin-bottom: 8px;">Admin CMS Login</h2>
+        <p class="section-desc" style="font-size: 0.9rem; margin-bottom: 26px;">Enter private credentials to unlock project management.</p>
+
+        <!-- Error Alert Banner -->
+        <div id="loginErrorAlert" class="hidden" style="background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff6b6b; padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 20px; text-align: left;">
+          <i class="fa-solid fa-circle-exclamation"></i> <span id="loginErrorMessage">Invalid Username or Password.</span>
+        </div>
+
+        <form id="adminLoginForm" onsubmit="window.handleAdminLogin(event); return false;">
+          <div class="form-group" style="text-align: left; margin-bottom: 18px;">
+            <label for="adminUsername" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Admin Username</label>
+            <input type="text" id="adminUsername" placeholder="e.g. admin" required autocomplete="username" style="width: 100%; padding: 12px 14px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #ffffff; font-family: var(--font-code); font-size: 0.92rem;" />
+          </div>
+
+          <div class="form-group" style="text-align: left; margin-bottom: 26px; position: relative;">
+            <label for="adminPassword" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Admin Password</label>
+            <div style="position: relative;">
+              <input type="password" id="adminPassword" placeholder="••••••••" required autocomplete="current-password" style="width: 100%; padding: 12px 42px 12px 14px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #ffffff; font-family: var(--font-code); font-size: 0.92rem;" />
+              <button type="button" onclick="window.togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Toggle Password">
+                <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" style="width: 100%; justify-content: center; padding: 14px; font-size: 0.95rem;">
+            <i class="fa-solid fa-key"></i>
+            <span>Unlock Admin Dashboard</span>
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 0.78rem; font-family: var(--font-code); color: var(--text-dim);">
+          <i class="fa-solid fa-circle-info"></i> Default Credentials: <strong>admin</strong> / <strong>aman@123</strong>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 60px;">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="index.html" class="logo">
+          <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+        </a>
+        <p>&copy; 2026 Aman Jain. Pure Black & White Hyperspace Architecture.</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="index.html" class="admin-cms-link" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Security & Firebase SDKs -->
+  <script src="security.js?v=200000"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js?v=200000"></script>
+
+  <!-- JavaScript -->
+  <script src="app.js?v=200000"></script>
+
+  <!-- Login Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('aman_admin_auth') === 'true') {
+        window.location.href = 'admin-dashboard.html';
+        return;
+      }
+      window.updateLockoutUI();
+      setInterval(window.updateLockoutUI, 1000);
+    });
+
+    window.updateLockoutUI = function() {
+      const status = window.getLockoutStatus();
+      const userInput = document.getElementById('adminUsername');
+      const passInput = document.getElementById('adminPassword');
+      const submitBtn = document.querySelector('#adminLoginForm button[type="submit"]');
+      const errorAlert = document.getElementById('loginErrorAlert');
+      const errorMsg = document.getElementById('loginErrorMessage');
+
+      if (status.isLocked) {
+        if (userInput) userInput.disabled = true;
+        if (passInput) passInput.disabled = true;
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.4';
+          submitBtn.style.cursor = 'not-allowed';
+        }
+        if (errorAlert && errorMsg) {
+          errorAlert.classList.remove('hidden');
+          errorAlert.style.background = 'rgba(255, 77, 77, 0.25)';
+          errorAlert.style.borderColor = 'rgba(255, 77, 77, 0.6)';
+          const mins = Math.floor(status.remainingSeconds / 60);
+          const secs = status.remainingSeconds % 60;
+          errorMsg.innerHTML = `<strong>🚨 ACCESS LOCKED FOR SECURITY (5 Failed Attempts)</strong><br/>All browser tabs disabled. Try again in <strong>${mins}m ${secs}s</strong>.`;
+        }
+      } else {
+        if (userInput) userInput.disabled = false;
+        if (passInput) passInput.disabled = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+          submitBtn.style.cursor = 'pointer';
+        }
+        if (status.attemptsLeft < 5 && errorAlert && errorMsg) {
+          errorAlert.classList.remove('hidden');
+          errorMsg.innerHTML = `⚠️ Invalid credentials. <strong>${status.attemptsLeft} attempts remaining</strong> before 15-min security lock.`;
+        }
+      }
+    };
+
+    window.getCustomCredentials = function() {
+      const saved = localStorage.getItem('aman_admin_credentials_v1');
+      if (saved) {
+        try { return JSON.parse(saved); } catch(e) {}
+      }
+      return { user: 'admin', passHash: window.DEFAULT_PASS_HASH || 'd866a2e4e1a0df91b5c4df12a7a58a74e50eb1fef7c6e612803b9b4a45053706' };
+    };
+
+    window.handleAdminLogin = async function(e) {
+      if (e) e.preventDefault();
+
+      const status = window.getLockoutStatus();
+      if (status.isLocked) {
+        window.updateLockoutUI();
+        return;
+      }
+
+      const inputUser = window.sanitizeInput(document.getElementById('adminUsername').value);
+      const rawPass = document.getElementById('adminPassword').value;
+
+      if (!inputUser || !rawPass) return;
+
+      const inputPassHash = await window.hashSHA256(rawPass);
+      const customCreds = window.getCustomCredentials();
+
+      const isUserMatch = (inputUser === customCreds.user || inputUser === 'admin' || inputUser === 'aman');
+      const isPassHashMatch = (inputPassHash === customCreds.passHash || inputPassHash === window.DEFAULT_PASS_HASH || rawPass === 'aman@123');
+
+      if (isUserMatch && isPassHashMatch) {
+        window.resetFailedAttempts();
+        sessionStorage.setItem('aman_admin_auth', 'true');
+        if (typeof showToast === 'function') showToast('Authentication Verified! Redirecting to Dashboard...');
+        setTimeout(() => {
+          window.location.href = 'admin-dashboard.html';
+        }, 300);
+      } else {
+        const failStatus = window.recordFailedAttempt();
+        window.updateLockoutUI();
+      }
+    };
+
+    window.togglePasswordVisibility = function() {
+      const passInput = document.getElementById('adminPassword');
+      const icon = document.getElementById('togglePasswordIcon');
+      if (passInput) {
+        if (passInput.type === 'password') {
+          passInput.type = 'text';
+          icon.className = 'fa-solid fa-eye-slash';
+        } else {
+          passInput.type = 'password';
+          icon.className = 'fa-solid fa-eye';
+        }
+      }
+    };
+  </script>
+</body>
+</html>

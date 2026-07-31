@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Handles & Contact | Aman Jain</title>
+  <meta name="description" content="Connect with Aman Jain across GitHub, LinkedIn, X, Discord, or send a direct contact message." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- DotLottie Web Component Script -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=2000" />
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Custom Cursor Follower -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Background WebGL Canvas (Hyperspace Speedlines) -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="socials.html" class="nav-link active">Socials & Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cv.html" target="_blank" class="btn btn-outline cv-modal-trigger-btn" onclick="window.openCVModal(event)" title="View Aman Jain CV">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>View CV</span>
+        </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 100px;">
+    <!-- Social Handles Grid Section -->
+    <section class="section socials-section" id="socials">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-tag">// CONNECT WITH ME</span>
+          <h2 class="section-title">Social Media Handles</h2>
+          <p class="section-desc">Reach out across platforms, explore my repositories, or join my community.</p>
+        </div>
+
+        <div class="socials-grid">
+          <!-- GitHub Card -->
+          <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="social-card glass-panel github">
+            <div class="social-card-icon"><i class="fa-brands fa-github"></i></div>
+            <div class="social-card-info">
+              <h3>GitHub</h3>
+              <p>@cooldude698</p>
+              <span class="social-link-label">Explore Repositories <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </a>
+
+          <!-- LinkedIn Card -->
+          <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-card glass-panel linkedin">
+            <div class="social-card-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+            <div class="social-card-info">
+              <h3>LinkedIn</h3>
+              <p>in/aman-jain-dev</p>
+              <span class="social-link-label">Connect Professionally <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </a>
+
+          <!-- X / Twitter Card -->
+          <a href="https://x.com/AmanJain2527" target="_blank" rel="noopener" class="social-card glass-panel twitter">
+            <div class="social-card-icon"><i class="fa-brands fa-x-twitter"></i></div>
+            <div class="social-card-info">
+              <h3>X (Twitter)</h3>
+              <p>@AmanJain2527</p>
+              <span class="social-link-label">Follow Tech Updates <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </a>
+
+          <!-- Instagram Card -->
+          <a href="https://instagram.com/amannnn_jain/" target="_blank" rel="noopener" class="social-card glass-panel instagram">
+            <div class="social-card-icon"><i class="fa-brands fa-instagram"></i></div>
+            <div class="social-card-info">
+              <h3>Instagram</h3>
+              <p>@amannnn_jain</p>
+              <span class="social-link-label">View Visual Showcase <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </a>
+
+          <!-- Discord Card -->
+          <a href="https://discord.com" target="_blank" rel="noopener" class="social-card glass-panel discord">
+            <div class="social-card-icon"><i class="fa-brands fa-discord"></i></div>
+            <div class="social-card-info">
+              <h3>Discord</h3>
+              <p>@cooldude698</p>
+              <span class="social-link-label">Join Community <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </a>
+
+          <!-- Email Direct Card -->
+          <div class="social-card glass-panel email-card copy-email-btn">
+            <div class="social-card-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="social-card-info">
+              <h3>Email</h3>
+              <p id="displayEmail">aj2194078@gmail.com</p>
+              <span class="social-link-label">Click to Copy Address <i class="fa-solid fa-copy"></i></span>
+            </div>
+          </div>
+
+          <!-- Phone Direct Card -->
+          <a href="tel:+919936870833" class="social-card glass-panel phone-card">
+            <div class="social-card-icon"><i class="fa-solid fa-phone"></i></div>
+            <div class="social-card-info">
+              <h3>Phone / WhatsApp</h3>
+              <p>+91 9936870833</p>
+              <span class="social-link-label">Click to Call / Message <i class="fa-solid fa-phone-flip"></i></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="contact-wrapper glass-panel">
+          <div class="contact-info">
+            <span class="section-tag">// GET IN TOUCH</span>
+            <h2>Let's connect & collaborate.</h2>
+            <p>
+              Have a question about my software engineering projects, code repositories, or academic work? Send me a message and I'll get back to you promptly.
+            </p>
+
+            <div class="contact-details">
+              <div class="contact-detail-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                  <h4>Location</h4>
+                  <p>Bangalore, Karnataka & Remote Worldwide</p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <i class="fa-solid fa-paper-plane"></i>
+                <div>
+                  <h4>Direct Email</h4>
+                  <p><a href="mailto:aj2194078@gmail.com" style="color: #ffffff; text-decoration: underline;">aj2194078@gmail.com</a></p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <i class="fa-solid fa-phone"></i>
+                <div>
+                  <h4>Phone / WhatsApp</h4>
+                  <p><a href="tel:+919936870833" style="color: #ffffff; text-decoration: underline;">+91 9936870833</a></p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <i class="fa-solid fa-clock"></i>
+                <div>
+                  <h4>Response Time</h4>
+                  <p>Within 24 Hours</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="contactName">Your Name</label>
+              <input type="text" id="contactName" placeholder="e.g., Sarah Jenkins" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contactEmail">Your Email</label>
+              <input type="email" id="contactEmail" placeholder="e.g., sarah@example.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contactSubject">Subject</label>
+              <input type="text" id="contactSubject" placeholder="Project Inquiry / Collaboration" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contactMessage">Message</label>
+              <textarea id="contactMessage" rows="5" placeholder="Tell me about your project, timeline, and goals..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Send Message</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="index.html" class="logo">
+          <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+        </a>
+        <p>&copy; 2026 Aman Jain. Pure Black & White Hyperspace Architecture.</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="admin-login.html" class="admin-cms-link" style="color: var(--text-muted); font-size: 0.85rem; margin-right: 20px; text-decoration: none;" title="Admin CMS Login">
+          <i class="fa-solid fa-lock"></i> Admin Portal
+        </a>
+        <a href="#socials" class="back-to-top-btn" title="Back to Top">
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript -->
+  <script src="app.js?v=100000"></script>
+</body>
+</html>

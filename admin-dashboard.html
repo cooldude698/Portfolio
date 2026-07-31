@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin CMS Dashboard | Aman Jain Portfolio</title>
+  <meta name="description" content="Admin CMS Dashboard for Aman Jain to manage, publish, edit, and delete portfolio projects." />
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Three.js 3D WebGL Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Core Design System CSS -->
+  <link rel="stylesheet" href="style.css?v=100001" />
+
+  <!-- Auth Guard Script (Executes before rendering body to prevent flicker) -->
+  <script>
+    if (sessionStorage.getItem('aman_admin_auth') !== 'true') {
+      window.location.href = 'admin-login.html';
+    }
+  </script>
+</head>
+<body class="dark-theme">
+
+  <!-- Interactive Three.js WebGL Canvas -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Custom Cursor Ring -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="socials.html" class="nav-link">Socials & Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-outline" title="Return to Live Website">
+          <i class="fa-solid fa-globe"></i>
+          <span>View Site</span>
+        </a>
+
+        <button class="btn btn-primary" onclick="window.handleAdminLogout()" title="Logout Admin Session">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 110px; min-height: 85vh;">
+    <section class="section admin-dashboard-section" id="adminDashboardSection">
+      <div class="container">
+        <!-- Dashboard Header Card -->
+        <div class="admin-dashboard-header glass-panel" style="padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 35px;">
+          <div>
+            <span class="section-tag">// AMAN JAIN PORTFOLIO CMS</span>
+            <h2 class="section-title" style="font-size: 1.85rem; margin-bottom: 4px;">Project Management Dashboard</h2>
+            <p class="section-desc" style="font-size: 0.88rem; margin-bottom: 0;">Authenticated Session: <strong>Aman Jain (Administrator)</strong></p>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-outline" id="changeCredentialsBtn" onclick="window.openSecurityModal(); return false;" style="font-size: 0.82rem;" title="Change Admin Username & Password">
+              <i class="fa-solid fa-user-shield"></i> Change Credentials
+            </button>
+            <button class="btn btn-outline" onclick="window.restoreDefaultProjects()" style="font-size: 0.82rem;" title="Reset default projects (NutriLumen, Drishti AI, Rawgenn Tech)">
+              <i class="fa-solid fa-rotate-left"></i> Restore Defaults
+            </button>
+            <button class="btn btn-outline" onclick="window.handleAdminLogout()" title="Logout Admin Session">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+          <!-- Left Column: Add / Edit Form -->
+          <div class="admin-card glass-panel" style="padding: 32px;">
+            <h3 style="font-size: 1.3rem; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;">
+              <i class="fa-solid fa-circle-plus"></i> <span id="formCardTitle">Publish New Project</span>
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 22px;">Fill in details below to publish directly to the live website grid.</p>
+
+            <form id="adminProjectForm" onsubmit="window.saveAdminProject(event); return false;">
+              <input type="hidden" id="editProjectId" value="" />
+
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Project Cover Image *</label>
+                <div class="file-dropzone" id="fileDropzone" style="padding: 22px; text-align: center; border: 1px dashed var(--border-color); border-radius: var(--radius-sm); cursor: pointer; background: rgba(0,0,0,0.3);">
+                  <input type="file" id="projectImageInput" accept="image/*" class="file-input-hidden" onchange="window.handleAdminImageUpload(event)" style="display:none;" />
+                  <div id="dropzonePrompt" onclick="document.getElementById('projectImageInput').click()">
+                    <i class="fa-solid fa-image" style="font-size: 1.8rem; color: var(--text-muted); margin-bottom: 8px;"></i>
+                    <p style="font-size: 0.85rem; margin-bottom: 4px;"><strong>Click to select image file</strong> or paste URL below</p>
+                    <span style="font-size: 0.75rem; color: var(--text-dim);">PNG, JPG, WebP, GIF</span>
+                  </div>
+                  <div id="adminImagePreviewWrap" class="hidden" style="margin-top: 10px; position: relative;">
+                    <img id="adminImagePreview" src="" alt="Cover Preview" style="max-height: 140px; border-radius: 6px; border: 1px solid var(--border-color);" />
+                  </div>
+                </div>
+                <input type="text" id="projectImageUrlInput" placeholder="Or enter Image URL (e.g. drishti-preview.png)" oninput="window.handleImageUrlInput(this.value)" style="width: 100%; margin-top: 10px; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.85rem;" />
+              </div>
+
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;">
+                <div class="form-group">
+                  <label for="projectTitle" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Project Title *</label>
+                  <input type="text" id="projectTitle" placeholder="e.g. Drishti AI Co-Pilot" required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.88rem;" />
+                </div>
+
+                <div class="form-group">
+                  <label for="projectCategory" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Category *</label>
+                  <select id="projectCategory" required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.88rem;">
+                    <option value="Web App">Web App</option>
+                    <option value="AI / Tools">AI / Tools</option>
+                    <option value="3D / Creative">3D / Creative</option>
+                    <option value="Mobile">Mobile</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="projectTechStack" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Tech Stack (comma separated) *</label>
+                <input type="text" id="projectTechStack" placeholder="e.g. React, Next.js, Python, MongoDB" required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.88rem;" />
+              </div>
+
+              <div class="form-group" style="margin-bottom: 18px;">
+                <label for="projectDescription" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Description *</label>
+                <textarea id="projectDescription" rows="3" placeholder="Brief overview of features, impact, and technology stack..." required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.85rem;"></textarea>
+              </div>
+
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;">
+                <div class="form-group">
+                  <label for="projectDemoUrl" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Live Demo URL</label>
+                  <input type="url" id="projectDemoUrl" placeholder="https://drishtiii.vercel.app" style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.85rem;" />
+                </div>
+
+                <div class="form-group">
+                  <label for="projectGithubUrl" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">GitHub Repo URL</label>
+                  <input type="url" id="projectGithubUrl" placeholder="https://github.com/cooldude698" style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.85rem;" />
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 12px;">
+                <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center; padding: 12px;">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span id="saveBtnText">Publish Project</span>
+                </button>
+                <button type="button" class="btn btn-outline" onclick="window.resetAdminForm()">Reset</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Column: Published Projects List -->
+          <div class="admin-card glass-panel" style="padding: 32px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 4px; display: flex; align-items: center; gap: 10px;">
+                  <i class="fa-solid fa-list-check"></i> Published Projects
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Manage, edit, or delete live portfolio items.</p>
+              </div>
+
+              <span id="projectCountBadge" style="font-size: 0.78rem; font-family: var(--font-code); color: var(--text-main); background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: var(--radius-sm);">
+                Active Projects
+              </span>
+            </div>
+
+            <!-- List Container -->
+            <div id="adminProjectsList" style="display: flex; flex-direction: column; gap: 16px; max-height: 590px; overflow-y: auto; padding-right: 6px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="index.html" class="logo">
+          <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+        </a>
+        <p>&copy; 2026 Aman Jain. Pure Black & White Hyperspace Architecture.</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="index.html" class="admin-cms-link" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i> Back to Portfolio Website
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Security & Firebase SDKs -->
+  <script src="security.js?v=200000"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js?v=200000"></script>
+
+  <!-- JavaScript -->
+  <script src="app.js?v=200000"></script>
+
+  <!-- Admin Dashboard Controller -->
+  <script>
+    // Global Security Modal Functions
+    window.openSecurityModal = function() {
+      console.log("🔥 openSecurityModal called");
+      const modal = document.getElementById('securityModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+        modal.style.visibility = 'visible';
+        modal.style.pointerEvents = 'auto';
+        const creds = window.getAdminCredentials();
+        const userField = document.getElementById('newAdminUser');
+        if (userField) userField.value = creds.user;
+      } else {
+        alert("Security modal element not found!");
+      }
+    };
+
+    window.closeSecurityModal = function() {
+      const modal = document.getElementById('securityModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
+        modal.style.pointerEvents = 'none';
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.renderAdminProjectsList();
+      const btn = document.getElementById('changeCredentialsBtn');
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.openSecurityModal();
+        });
+      }
+    });
+
+    window.handleAdminLogout = function() {
+      sessionStorage.removeItem('aman_admin_auth');
+      if (typeof showToast === 'function') showToast('Admin session logged out.');
+      window.location.href = 'admin-login.html';
+    };
+
+    let uploadedImageDataUrl = '';
+
+    window.handleAdminImageUpload = function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImageDataUrl = evt.target.result;
+          const preview = document.getElementById('adminImagePreview');
+          const wrap = document.getElementById('adminImagePreviewWrap');
+          if (preview) preview.src = uploadedImageDataUrl;
+          if (wrap) wrap.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
+    window.handleImageUrlInput = function(url) {
+      if (url.trim() !== '') {
+        uploadedImageDataUrl = url.trim();
+        const preview = document.getElementById('adminImagePreview');
+        const wrap = document.getElementById('adminImagePreviewWrap');
+        if (preview) preview.src = uploadedImageDataUrl;
+        if (wrap) wrap.classList.remove('hidden');
+      }
+    };
+
+    window.saveAdminProject = async function(e) {
+      if (e) e.preventDefault();
+      const editId = document.getElementById('editProjectId').value;
+      const title = document.getElementById('projectTitle').value.trim();
+      const category = document.getElementById('projectCategory').value;
+      const techStackStr = document.getElementById('projectTechStack').value.trim();
+      const desc = document.getElementById('projectDescription').value.trim();
+      const demoUrl = document.getElementById('projectDemoUrl').value.trim() || 'https://github.com/cooldude698';
+      const githubUrl = document.getElementById('projectGithubUrl').value.trim() || 'https://github.com/cooldude698';
+
+      const techArray = techStackStr.split(',').map(t => t.trim()).filter(t => t !== '');
+      const coverImage = uploadedImageDataUrl || 'nutrilumen-preview.png';
+
+      const STORAGE_KEY = 'portfolio_user_projects_v20';
+      let projects = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+      let targetProject = null;
+
+      if (editId) {
+        // Edit existing project
+        const idx = projects.findIndex(p => p.id === editId);
+        if (idx !== -1) {
+          projects[idx] = {
+            ...projects[idx],
+            title,
+            category,
+            tech: techArray,
+            description: desc,
+            image: coverImage,
+            demoUrl,
+            githubUrl
+          };
+          targetProject = projects[idx];
+        }
+        if (typeof showToast === 'function') showToast(`Project "${title}" updated!`);
+      } else {
+        // Publish new project
+        targetProject = {
+          id: 'proj-' + Date.now(),
+          title,
+          category,
+          tech: techArray,
+          description: desc,
+          image: coverImage,
+          demoUrl,
+          githubUrl,
+          isUserUploaded: true,
+          date: new Date().toISOString().split('T')[0]
+        };
+        projects.unshift(targetProject);
+        if (typeof showToast === 'function') showToast(`Project "${title}" published to live portfolio!`);
+      }
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+
+      // Sync with Firebase Cloud Firestore if configured
+      if (typeof window.saveCloudProject === 'function' && targetProject) {
+        await window.saveCloudProject(targetProject);
+      }
+      window.resetAdminForm();
+      window.renderAdminProjectsList();
+    };
+
+    window.resetAdminForm = function() {
+      document.getElementById('editProjectId').value = '';
+      document.getElementById('projectTitle').value = '';
+      document.getElementById('projectTechStack').value = '';
+      document.getElementById('projectDescription').value = '';
+      document.getElementById('projectDemoUrl').value = '';
+      document.getElementById('projectGithubUrl').value = '';
+      document.getElementById('projectImageUrlInput').value = '';
+      document.getElementById('formCardTitle').textContent = 'Publish New Project';
+      document.getElementById('saveBtnText').textContent = 'Publish Project';
+      uploadedImageDataUrl = '';
+      const wrap = document.getElementById('adminImagePreviewWrap');
+      if (wrap) wrap.classList.add('hidden');
+    };
+
+    window.renderAdminProjectsList = async function() {
+      const container = document.getElementById('adminProjectsList');
+      const badge = document.getElementById('projectCountBadge');
+      if (!container) return;
+
+      const STORAGE_KEY = 'portfolio_user_projects_v20';
+      const DEFAULT_PROJECTS = [
+        {
+          id: 'proj-1',
+          title: 'NutriLumen – 360° Holistic Wellness Platform',
+          category: 'Web App',
+          tech: ['React', 'Next.js', 'Node.js', 'Tailwind CSS', 'UI/UX Design'],
+          description: 'A 360° Holistic Wellness Initiative integrating Mind, Body & Soul at thenutrilumen.com.',
+          image: 'nutrilumen-preview.png',
+          demoUrl: 'https://thenutrilumen.com',
+          githubUrl: 'https://github.com/cooldude698'
+        },
+        {
+          id: 'proj-2',
+          title: 'Drishti AI – Crime Tracking & Intelligence Co-Pilot',
+          category: 'AI / Tools',
+          tech: ['Python', 'React', 'MongoDB', 'AI Models', 'REST APIs'],
+          description: 'Karnataka State Police Co-Pilot: Next-Gen AI Crime Intelligence Platform at drishtiii.vercel.app.',
+          image: 'drishti-preview.png',
+          demoUrl: 'https://drishtiii.vercel.app',
+          githubUrl: 'https://github.com/cooldude698'
+        },
+        {
+          id: 'proj-3',
+          title: 'Rawgenn Tech – Talent & Engineering Platform',
+          category: 'Web App',
+          tech: ['React', 'Next.js', 'Node.js', 'Tailwind CSS', 'UI/UX Design'],
+          description: 'RAWGENN – Talent, Curated. Quality, Guaranteed at rawgenn.tech.',
+          image: 'rawgenn-preview.png',
+          demoUrl: 'https://rawgenn.tech',
+          githubUrl: 'https://github.com/cooldude698'
+        }
+      ];
+
+      let saved = null;
+      if (typeof window.fetchCloudProjects === 'function') {
+        saved = await window.fetchCloudProjects();
+      }
+      if (!saved || saved.length === 0) {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+      }
+      if (!saved || saved.length === 0) {
+        saved = DEFAULT_PROJECTS;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
+      }
+
+      if (badge) badge.textContent = `${saved.length} Active Projects`;
+      container.innerHTML = '';
+
+      saved.forEach((proj) => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; gap: 14px;';
+
+        const techChips = (proj.tech || []).map(t => `<span style="font-size: 0.7rem; font-family: var(--font-code); padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff;">${t}</span>`).join(' ');
+
+        item.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 14px; flex: 1; overflow: hidden;">
+            <img src="${proj.image}" alt="${proj.title}" style="width: 56px; height: 56px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);" onError="this.src='nutrilumen-preview.png'" />
+            <div style="overflow: hidden;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <h4 style="font-size: 0.92rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; color: #fff;">${proj.title}</h4>
+                <span style="font-size: 0.68rem; font-family: var(--font-code); color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 3px;">${proj.category}</span>
+              </div>
+              <div style="display: flex; gap: 4px; flex-wrap: wrap;">${techChips}</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="btn btn-outline" onclick="window.editAdminProject('${proj.id}')" style="padding: 6px 10px; font-size: 0.78rem;" title="Edit Project">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="btn btn-outline" onclick="window.deleteAdminProject('${proj.id}')" style="padding: 6px 10px; font-size: 0.78rem; color: #ff6b6b; border-color: rgba(255,107,107,0.3);" title="Delete Project">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    };
+
+    window.editAdminProject = function(id) {
+      const STORAGE_KEY = 'portfolio_user_projects_v20';
+      const projects = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const proj = projects.find(p => p.id === id);
+      if (proj) {
+        document.getElementById('editProjectId').value = proj.id;
+        document.getElementById('projectTitle').value = proj.title;
+        document.getElementById('projectCategory').value = proj.category;
+        document.getElementById('projectTechStack').value = (proj.tech || []).join(', ');
+        document.getElementById('projectDescription').value = proj.description;
+        document.getElementById('projectDemoUrl').value = proj.demoUrl || '';
+        document.getElementById('projectGithubUrl').value = proj.githubUrl || '';
+        document.getElementById('projectImageUrlInput').value = proj.image || '';
+        document.getElementById('formCardTitle').textContent = 'Edit Project Details';
+        document.getElementById('saveBtnText').textContent = 'Update Project';
+        uploadedImageDataUrl = proj.image;
+
+        const preview = document.getElementById('adminImagePreview');
+        const wrap = document.getElementById('adminImagePreviewWrap');
+        if (preview) preview.src = proj.image;
+        if (wrap) wrap.classList.remove('hidden');
+
+        if (typeof showToast === 'function') showToast(`Editing "${proj.title}"...`);
+      }
+    };
+
+    window.deleteAdminProject = async function(id) {
+      if (confirm('Are you sure you want to delete this project from the live portfolio?')) {
+        const STORAGE_KEY = 'portfolio_user_projects_v20';
+        let projects = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        projects = projects.filter(p => p.id !== id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+
+        // Delete from Firebase Cloud Firestore if configured
+        if (typeof window.deleteCloudProject === 'function') {
+          await window.deleteCloudProject(id);
+        }
+
+        if (typeof showToast === 'function') showToast('Project deleted successfully.');
+        window.renderAdminProjectsList();
+      }
+    };
+
+    window.restoreDefaultProjects = function() {
+      if (confirm('Restore initial showcase projects (NutriLumen, Drishti AI, Rawgenn Tech)?')) {
+        const STORAGE_KEY = 'portfolio_user_projects_v20';
+        const DEFAULT_PROJECTS = [
+          {
+            id: 'proj-1',
+            title: 'NutriLumen – 360° Holistic Wellness Platform',
+            category: 'Web App',
+            tech: ['React', 'Next.js', 'Node.js', 'Tailwind CSS', 'UI/UX Design'],
+            description: 'A 360° Holistic Wellness Initiative integrating Mind, Body & Soul. Features client meal planning, dietary analytics, and personalized wellness dashboards at thenutrilumen.com.',
+            image: 'nutrilumen-preview.png',
+            demoUrl: 'https://thenutrilumen.com',
+            githubUrl: 'https://github.com/cooldude698',
+            isUserUploaded: false
+          },
+          {
+            id: 'proj-2',
+            title: 'Drishti AI – Crime Tracking & Intelligence Co-Pilot',
+            category: 'AI / Tools',
+            tech: ['Python', 'React', 'MongoDB', 'AI Models', 'REST APIs'],
+            description: 'Karnataka State Police Co-Pilot: Next-Gen AI Crime Intelligence Platform with live crime tracking, predictive analytics, 5,35,815+ MCCTNS records & digital FIR management at drishtiii.vercel.app.',
+            image: 'drishti-preview.png',
+            demoUrl: 'https://drishtiii.vercel.app',
+            githubUrl: 'https://github.com/cooldude698',
+            isUserUploaded: false
+          },
+          {
+            id: 'proj-3',
+            title: 'Rawgenn Tech – Talent & Engineering Platform',
+            category: 'Web App',
+            tech: ['React', 'Next.js', 'Node.js', 'Tailwind CSS', 'UI/UX Design'],
+            description: 'RAWGENN – Talent, Curated. Quality, Guaranteed: Founded and independently built rawgenn.tech, connecting clients with elite engineering talent for end-to-end digital solutions.',
+            image: 'rawgenn-preview.png',
+            demoUrl: 'https://rawgenn.tech',
+            githubUrl: 'https://github.com/cooldude698',
+            isUserUploaded: false
+          }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
+
+        // Sync with Firebase Cloud Firestore if configured
+        if (typeof window.saveCloudProject === 'function') {
+          for (const proj of DEFAULT_PROJECTS) {
+            await window.saveCloudProject(proj);
+          }
+        }
+
+        if (typeof showToast === 'function') showToast('Default showcase projects restored to Cloud Firestore.');
+        window.renderAdminProjectsList();
+      }
+    };
+
+    // Admin Credentials Management Logic
+    window.openSecurityModal = function() {
+      const modal = document.getElementById('securityModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        const creds = window.getAdminCredentials();
+        document.getElementById('newAdminUser').value = creds.user;
+        document.getElementById('newAdminPass').value = '';
+        document.getElementById('confirmAdminPass').value = '';
+      }
+    };
+
+    window.closeSecurityModal = function() {
+      const modal = document.getElementById('securityModal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    window.getAdminCredentials = function() {
+      const saved = localStorage.getItem('aman_admin_credentials_v1');
+      if (saved) {
+        try { return JSON.parse(saved); } catch(e) {}
+      }
+      return { user: 'admin', pass: 'aman@123' };
+    };
+
+    window.updateAdminCredentials = async function(e) {
+      if (e) e.preventDefault();
+      const newUsr = window.sanitizeInput(document.getElementById('newAdminUser').value);
+      const newPass = document.getElementById('newAdminPass').value.trim();
+      const confirmPass = document.getElementById('confirmAdminPass').value.trim();
+
+      if (!newUsr || !newPass) {
+        alert('Please fill in both Username and Password.');
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        alert('New Password and Confirm Password do not match.');
+        return;
+      }
+
+      const passHash = await window.hashSHA256(newPass);
+      const newCreds = { user: newUsr, passHash: passHash, updatedAt: new Date().toISOString() };
+      localStorage.setItem('aman_admin_credentials_v1', JSON.stringify(newCreds));
+
+      // Sync to Firebase Firestore if connected
+      if (typeof db !== 'undefined' && db) {
+        try {
+          await db.collection('settings').doc('admin_auth').set(newCreds);
+          console.log("🔥 Admin credentials (SHA-256 Hashed) synced to Firebase Cloud Firestore!");
+        } catch(err) {
+          console.warn("Firestore auth sync error:", err);
+        }
+      }
+
+      window.closeSecurityModal();
+      if (typeof showToast === 'function') {
+        showToast(`Admin Credentials Updated & Encrypted! Username: "${newUsr}"`);
+      } else {
+        alert(`Admin Credentials Updated & Encrypted! Username: "${newUsr}"`);
+      }
+    };
+  </script>
+
+  <!-- MODAL: Change Admin Credentials -->
+  <div class="modal-overlay hidden" id="securityModal">
+    <div class="modal-card glass-panel" style="max-width: 440px; padding: 32px;">
+      <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+        <div>
+          <h3 style="font-size: 1.25rem; margin: 0; color: #fff; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-user-shield"></i> Admin Security
+          </h3>
+          <p style="font-size: 0.83rem; color: var(--text-muted); margin: 4px 0 0 0;">Update your private Admin Username & Password.</p>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeSecurityModal()" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="changeCredentialsForm" onsubmit="window.updateAdminCredentials(event); return false;">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="newAdminUser" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">New Admin Username *</label>
+          <input type="text" id="newAdminUser" placeholder="e.g. aman_admin" required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.9rem;" />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="newAdminPass" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">New Secret Password *</label>
+          <input type="password" id="newAdminPass" placeholder="Enter new secret password" required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.9rem;" />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 24px;">
+          <label for="confirmAdminPass" style="font-size: 0.82rem; font-family: var(--font-code); color: var(--text-muted); display: block; margin-bottom: 6px;">Confirm Secret Password *</label>
+          <input type="password" id="confirmAdminPass" placeholder="Re-type new secret password" required style="width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-code); font-size: 0.9rem;" />
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center; padding: 12px;">
+            <i class="fa-solid fa-floppy-disk"></i> Save New Passcode
+          </button>
+          <button type="button" class="btn btn-outline" onclick="window.closeSecurityModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

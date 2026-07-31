@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aman Jain | Creative Technologist & Developer</title>
+  <meta name="description" content="Portfolio of Aman Jain - Developer & Creative Technologist featuring 3D speedline visuals, projects, skills, and interactive developer CLI terminal." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- DotLottie / Lottie Web Player -->
+  <script src="https://unpkg.com/@dotlotties/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+  <!-- DotLottie Web Component Script -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js" type="module"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=2000" />
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Preloader Splash Intro Overlay -->
+  <div class="preloader-overlay" id="preloaderOverlay">
+    <div class="preloader-content">
+      <div class="snap-animation-box" id="snapAnimationBox">
+        <dotlottie-wc id="dotLottiePlayer" src="https://lottie.host/b97b9909-cd87-4323-ae77-6e2b0a47e0e5/0dIasuTLdA.lottie" style="width: 450px; height: 450px" autoplay></dotlottie-wc>
+      </div>
+
+      <div class="preloader-logo">&lt;AMAN/&gt;</div>
+      <div class="preloader-status-text" id="preloaderStatusText">ENTERING PORTFOLIO...</div>
+    </div>
+  </div>
+
+  <!-- Custom Monochrome Cursor Follower -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Background WebGL Canvas (Hyperspace Speedlines) -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Navigation Header -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="socials.html" class="nav-link">Socials & Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cv.html" target="_blank" class="btn btn-outline cv-modal-trigger-btn" onclick="window.openCVModal(event)" title="View Aman Jain CV">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>View CV</span>
+        </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Home Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>B.Tech CS Student & Full-Stack Developer</span>
+        </div>
+
+        <h1 class="hero-title">
+          WELCOME TO MY <br />
+          <span class="text-gradient">TIME TUNNEL</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Full-Stack Engineer & Creative Technologist crafting high-performance web applications, 3D WebGL visuals, and elegant digital products.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="cv.html" target="_blank" class="btn btn-lg btn-gradient cv-modal-trigger-btn" onclick="window.openCVModal(event)">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>View My CV</span>
+          </a>
+          <a href="projects.html" class="btn btn-lg btn-glass">
+            <span>Explore Projects</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="about.html" class="btn btn-lg btn-glass">
+            <i class="fa-solid fa-user"></i>
+            <span>About Me</span>
+          </a>
+          <a href="socials.html" class="btn btn-lg btn-outline">
+            <i class="fa-regular fa-paper-plane"></i>
+            <span>Get In Touch</span>
+          </a>
+        </div>
+
+        <!-- Quick Social Dock -->
+        <div class="social-dock">
+          <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="social-dock-item" title="GitHub (@cooldude698)">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-dock-item" title="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+          <a href="https://x.com/AmanJain2527" target="_blank" rel="noopener" class="social-dock-item" title="X (@AmanJain2527)">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a href="https://instagram.com/amannnn_jain/" target="_blank" rel="noopener" class="social-dock-item" title="Instagram (@amannnn_jain)">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://discord.com" target="_blank" rel="noopener" class="social-dock-item" title="Discord (@cooldude698)">
+            <i class="fa-brands fa-discord"></i>
+          </a>
+          <a href="tel:+919936870833" class="social-dock-item" title="Call / WhatsApp (+91 9936870833)">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+          <button class="social-dock-item copy-email-btn" title="Copy Email (aj2194078@gmail.com)">
+            <i class="fa-solid fa-envelope"></i>
+          </button>
+        </div>
+
+        <div class="scroll-indicator">
+          <span class="scroll-text">Scroll to warp through speedlines</span>
+          <div class="mouse-icon">
+            <div class="wheel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: Interactive Developer Terminal -->
+    <section class="section terminal-section">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-tag">// INTERACTIVE SHELL</span>
+          <h2 class="section-title">Developer Terminal</h2>
+          <p class="section-desc">Type or click commands below to explore portfolio data directly via CLI.</p>
+        </div>
+
+        <div class="terminal-card glass-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="dot close"></span>
+              <span class="dot minimize"></span>
+              <span class="dot maximize"></span>
+            </div>
+            <div class="terminal-title">aman@hyperspace:~$ zsh</div>
+            <div style="width: 50px;"></div>
+          </div>
+
+          <div class="terminal-body" id="terminalOutput">
+            <div class="terminal-line text-muted">Welcome to Aman Jain's Hyperspace Terminal v2.6.0</div>
+            <div class="terminal-line text-muted">Type <span class="cmd-highlight">'help'</span> or click shortcut pills below.</div>
+          </div>
+
+          <div class="terminal-shortcuts">
+            <span class="shortcut-label">Quick Commands:</span>
+            <button type="button" class="cmd-pill" data-cmd="help" onclick="window.runTerminalCmd('help')">help</button>
+            <button type="button" class="cmd-pill" data-cmd="bio" onclick="window.runTerminalCmd('bio')">bio</button>
+            <button type="button" class="cmd-pill" data-cmd="skills" onclick="window.runTerminalCmd('skills')">skills</button>
+            <button type="button" class="cmd-pill" data-cmd="projects" onclick="window.runTerminalCmd('projects')">projects</button>
+            <button type="button" class="cmd-pill" data-cmd="quote" onclick="window.runTerminalCmd('quote')">quote</button>
+            <button type="button" class="cmd-pill" data-cmd="contact" onclick="window.runTerminalCmd('contact')">contact</button>
+            <button type="button" class="cmd-pill" data-cmd="clear" onclick="window.runTerminalCmd('clear')">clear</button>
+          </div>
+
+          <form class="terminal-input-row" id="terminalForm" action="javascript:void(0);" onsubmit="event.preventDefault(); window.runTerminalCmd(document.getElementById('terminalInput').value); return false;">
+            <span class="prompt-user">aman@portfolio:~$</span>
+            <input type="text" id="terminalInput" placeholder="type command..." autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault(); window.runTerminalCmd(this.value);}" />
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Core Specialization Grid -->
+    <section class="section specializations-section" id="specializations">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-tag">// WHAT I BUILD</span>
+          <h2 class="section-title">Engineering Specializations</h2>
+          <p class="section-desc">Delivering high-end software solutions across web, 3D, and AI disciplines.</p>
+        </div>
+
+        <div class="specializations-grid">
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-code"></i></div>
+            <h3>Full-Stack Web Engineering</h3>
+            <p>Architecting fast, responsive web apps using React, Next.js, Node.js, Python, and PostgreSQL with clean modular design.</p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-cube"></i></div>
+            <h3>3D & WebGL Graphics</h3>
+            <p>Crafting GPU-accelerated canvas animations, Three.js shaders, and interactive 3D environments that captivate users.</p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-brain"></i></div>
+            <h3>AI Tooling & Automation</h3>
+            <p>Integrating LLMs, custom API pipelines, developer CLI scripts, and automated workflow engines for seamless productivity.</p>
+          </div>
+
+          <div class="spec-card glass-panel">
+            <div class="spec-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <h3>UI/UX Systems Architecture</h3>
+            <p>Building accessible, reusable glassmorphic component libraries with smooth micro-interactions and dark mode excellence.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Featured Works Preview Grid -->
+    <section class="section home-preview-section" id="featuredProjects">
+      <div class="container">
+        <div class="section-header center">
+          <span class="section-tag">// FEATURED HIGHLIGHTS</span>
+          <h2 class="section-title">Selected Works</h2>
+          <p class="section-desc">A quick glance at recent software and 3D web projects.</p>
+        </div>
+
+        <div class="projects-grid" id="homeProjectsGrid">
+          <!-- Card 1: NutriLumen -->
+          <div class="project-card glass-panel">
+            <div class="project-thumb">
+              <img src="nutrilumen-preview.png" alt="NutriLumen – 360° Holistic Wellness Platform" loading="lazy" />
+              <span class="category-badge">Web App</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">NutriLumen – 360° Holistic Wellness Platform</h3>
+              <p class="project-desc">A 360° Holistic Wellness Initiative integrating Mind, Body & Soul. Features client meal planning, dietary analytics, and personalized wellness dashboards at thenutrilumen.com.</p>
+              <div class="project-tech">
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">UI/UX Design</span>
+              </div>
+              <div class="project-footer">
+                <div class="project-links">
+                  <a href="https://thenutrilumen.com" target="_blank" rel="noopener" class="project-link-btn" title="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="project-link-btn" title="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                  <button class="project-link-btn view-detail-btn" data-id="proj-1" title="Inspect Project Details"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Drishti AI -->
+          <div class="project-card glass-panel">
+            <div class="project-thumb">
+              <img src="drishti-preview.png" alt="Drishti AI – Crime Tracking & Intelligence Co-Pilot" loading="lazy" />
+              <span class="category-badge">AI / Tools</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">Drishti AI – Crime Tracking & Intelligence Co-Pilot</h3>
+              <p class="project-desc">Karnataka State Police Co-Pilot: Next-Gen AI Crime Intelligence Platform with live crime tracking, predictive analytics, 5,35,815+ MCCTNS records & digital FIR management at drishtiii.vercel.app.</p>
+              <div class="project-tech">
+                <span class="tech-chip">Python</span>
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">MongoDB</span>
+                <span class="tech-chip">AI Models</span>
+                <span class="tech-chip">REST APIs</span>
+              </div>
+              <div class="project-footer">
+                <div class="project-links">
+                  <a href="https://drishtiii.vercel.app" target="_blank" rel="noopener" class="project-link-btn" title="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="project-link-btn" title="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                  <button class="project-link-btn view-detail-btn" data-id="proj-2" title="Inspect Project Details"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Rawgenn Tech -->
+          <div class="project-card glass-panel">
+            <div class="project-thumb">
+              <img src="rawgenn-preview.png" alt="Rawgenn Tech – Talent & Engineering Platform" loading="lazy" />
+              <span class="category-badge">Web App</span>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">Rawgenn Tech – Talent & Engineering Platform</h3>
+              <p class="project-desc">RAWGENN – Talent, Curated. Quality, Guaranteed: Founded and independently built rawgenn.tech, connecting clients with elite engineering talent for end-to-end digital solutions.</p>
+              <div class="project-tech">
+                <span class="tech-chip">React</span>
+                <span class="tech-chip">Next.js</span>
+                <span class="tech-chip">Node.js</span>
+                <span class="tech-chip">Tailwind CSS</span>
+                <span class="tech-chip">UI/UX Design</span>
+              </div>
+              <div class="project-footer">
+                <div class="project-links">
+                  <a href="https://rawgenn.tech" target="_blank" rel="noopener" class="project-link-btn" title="Live Demo"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com/cooldude698" target="_blank" rel="noopener" class="project-link-btn" title="GitHub Repo"><i class="fa-brands fa-github"></i></a>
+                  <button class="project-link-btn view-detail-btn" data-id="proj-3" title="Inspect Project Details"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="center-cta" style="text-align: center; margin-top: 45px;">
+          <a href="projects.html" class="btn btn-lg btn-outline">
+            <span>View All Projects</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Call-To-Action Banner -->
+    <section class="section cta-banner-section">
+      <div class="container">
+        <div class="cta-banner-card glass-panel center">
+          <span class="section-tag">// GET IN TOUCH</span>
+          <h2 class="section-title">Interested in connecting or exploring my work?</h2>
+          <p class="section-desc">Connect with me to discuss software engineering, AI projects, or academic & open-source collaborations.</p>
+          <div class="cta-btn-group">
+            <a href="socials.html" class="btn btn-lg btn-primary">
+              <i class="fa-regular fa-paper-plane"></i>
+              <span>Start a Conversation</span>
+            </a>
+            <a href="projects.html" class="btn btn-lg btn-outline">
+              <i class="fa-solid fa-folder-open"></i>
+              <span>Browse Portfolio</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="index.html" class="logo">
+          <span class="logo-accent">&lt;</span>AMAN<span class="logo-accent">/&gt;</span>
+        </a>
+        <p>&copy; 2026 Aman Jain. Pure Black & White Hyperspace Architecture.</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="admin-login.html" class="admin-cms-link" style="color: var(--text-muted); font-size: 0.85rem; margin-right: 20px; text-decoration: none;" title="Admin CMS Login">
+          <i class="fa-solid fa-lock"></i> Admin Portal
+        </a>
+        <a href="#hero" class="back-to-top-btn" title="Back to Top">
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  <!-- CV Modal Overlay -->
+  <div class="modal-overlay hidden" id="cvModal">
+    <div class="cv-modal-card">
+      <div class="cv-header-title">AMAN JAIN</div>
+      <div class="cv-sub-header">
+        Bengaluru, India • +91 9936870833 • aj2194078@gmail.com • <a href="https://rawgenn.tech" target="_blank" rel="noopener" style="color: #ffffff; text-decoration: underline;">rawgenn.tech</a>
+      </div>
+
+      <div class="cv-section-heading">Career Objective</div>
+      <p class="cv-item-sub">
+        Second-year B.Tech student with a strong foundation in programming and full-stack development, and hands-on experience building AI-integrated products and founding Rawgenn Tech (rawgenn.tech). Seeking opportunities to apply problem-solving and software engineering skills to real-world projects.
+      </p>
+
+      <div class="cv-section-heading">Education</div>
+      <div class="cv-item">
+        <div class="cv-item-header">
+          <span class="cv-item-title">B.Tech (Computer Science)</span>
+          <span class="cv-item-date">CGPA: 8.95 | Expected Graduation: 2029</span>
+        </div>
+        <div class="cv-item-sub">Jain (Deemed-to-be University), Bengaluru</div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-header">
+          <span class="cv-item-title">Senior Secondary (12th), CBSE</span>
+          <span class="cv-item-date">Percentage: 79% | 2024</span>
+        </div>
+        <div class="cv-item-sub">Alpine Public School, Jhansi</div>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-header">
+          <span class="cv-item-title">Secondary (10th), CBSE</span>
+          <span class="cv-item-date">Percentage: 80% | 2022</span>
+        </div>
+        <div class="cv-item-sub">Delhi Public School, Aligarh</div>
+      </div>
+
+      <div class="cv-section-heading">Skills</div>
+      <ul class="cv-list">
+        <li><strong>Programming Languages:</strong> C, C++, Python, Java, JavaScript</li>
+        <li><strong>Web & Frameworks:</strong> React, Node.js, Next.js, Express.js, HTML/CSS, Tailwind CSS</li>
+        <li><strong>Databases:</strong> MongoDB, MySQL, Firebase</li>
+        <li><strong>Tools & Platforms:</strong> Git, GitHub, Figma, VS Code, Postman, Vercel, Netlify</li>
+        <li><strong>Core Concepts:</strong> Data Structures & Algorithms, OOP, REST APIs, AI/LLM Integration, Full-Stack Development, UI/UX Design</li>
+      </ul>
+
+      <div class="cv-section-heading">Projects</div>
+      <div class="cv-item">
+        <div class="cv-item-title">NutriLumen – Nutritionist Web Application</div>
+        <ul class="cv-list">
+          <li>Built a modern healthcare & nutrition web platform for professional nutritionists featuring client meal planning and dietary analytics.</li>
+          <li>Designed personalized wellness dashboards and automated nutritional intake tracking for clients.</li>
+        </ul>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-title">AI-Driven Crime Tracking & Prediction System – Karnataka Police</div>
+        <ul class="cv-list">
+          <li>Designed an AI-based solution to track live crime activity and predict potential future incidents using intelligence models.</li>
+          <li>Built a digital FIR storage module to eliminate paperwork-based processes for police departments.</li>
+        </ul>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-item-title">Rawgenn Tech – AI & Software Venture (rawgenn.tech)</div>
+        <ul class="cv-list">
+          <li>Founded and independently built Rawgenn Tech (rawgenn.tech), an engineering platform delivering custom web and AI applications.</li>
+          <li>Designed and developed the platform's website, rawgenn.tech, from concept to deployment.</li>
+        </ul>
+      </div>
+
+      <div class="cv-section-heading">Certifications</div>
+      <ul class="cv-list">
+        <li>Java Programming – LinkedIn Learning</li>
+        <li>Data Structures & Algorithms – Coursera</li>
+        <li>Full-Stack Web Development (React & Node.js) – Coursera</li>
+        <li>Introduction to Artificial Intelligence – Coursera</li>
+      </ul>
+
+      <div class="cv-section-heading">Achievements & Extracurricular</div>
+      <ul class="cv-list">
+        <li>Winner of 7–8 college-level events, competing against 50+ teams.</li>
+        <li>2nd Prize – CRCE Entrepreneurship Hackathon, a multi-campus competition across 8 campuses.</li>
+        <li>2nd Prize – Enigma Hackathon, organized by the Enigma college club.</li>
+        <li>Selected among top 800 teams from 32,000+ participants in the Scaler x Meta Hackathon and advanced to the final round.</li>
+      </ul>
+
+      <div class="cv-section-heading">Languages Known</div>
+      <p class="cv-item-sub">English, Hindi</p>
+
+      <div class="cv-actions-row">
+        <button class="btn btn-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> Print / Save PDF</button>
+        <a href="cv.html" class="btn btn-outline" target="_blank" rel="noopener"><i class="fa-solid fa-up-right-from-square"></i> Full Page View</a>
+        <button class="btn btn-glass" onclick="window.closeCVModal()"><i class="fa-solid fa-xmark"></i> Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js?v=100000"></script>
+
+  <!-- JavaScript -->
+  <script src="app.js?v=100000"></script>
+</body>
+</html>
