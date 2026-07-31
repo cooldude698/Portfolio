@@ -552,23 +552,6 @@
       }
     };
 
-    // Admin Credentials Management Logic
-    window.openSecurityModal = function() {
-      const modal = document.getElementById('securityModal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        const creds = window.getAdminCredentials();
-        document.getElementById('newAdminUser').value = creds.user;
-        document.getElementById('newAdminPass').value = '';
-        document.getElementById('confirmAdminPass').value = '';
-      }
-    };
-
-    window.closeSecurityModal = function() {
-      const modal = document.getElementById('securityModal');
-      if (modal) modal.classList.add('hidden');
-    };
-
     window.getAdminCredentials = function() {
       const saved = localStorage.getItem('aman_admin_credentials_v1');
       if (saved) {
