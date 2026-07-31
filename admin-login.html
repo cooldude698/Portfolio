@@ -177,11 +177,21 @@
       }
     };
 
-    window.getCustomCredentials = function() {
+    window.getCustomCredentials = async function() {
+      // 1. Fetch live from Firebase Cloud Firestore
+      if (typeof window.fetchCloudCredentials === 'function') {
+        const cloudCreds = await window.fetchCloudCredentials();
+        if (cloudCreds && cloudCreds.user) {
+          localStorage.setItem('aman_admin_credentials_v1', JSON.stringify(cloudCreds));
+          return cloudCreds;
+        }
+      }
+      // 2. Fallback to LocalStorage
       const saved = localStorage.getItem('aman_admin_credentials_v1');
       if (saved) {
         try { return JSON.parse(saved); } catch(e) {}
       }
+      // 3. Fallback to default
       return { user: 'admin', passHash: window.DEFAULT_PASS_HASH || 'd866a2e4e1a0df91b5c4df12a7a58a74e50eb1fef7c6e612803b9b4a45053706' };
     };
 
@@ -200,10 +210,10 @@
       if (!inputUser || !rawPass) return;
 
       const inputPassHash = await window.hashSHA256(rawPass);
-      const customCreds = window.getCustomCredentials();
+      const customCreds = await window.getCustomCredentials();
 
       const isUserMatch = (inputUser === customCreds.user || inputUser === 'admin' || inputUser === 'aman');
-      const isPassHashMatch = (inputPassHash === customCreds.passHash || inputPassHash === window.DEFAULT_PASS_HASH || rawPass === 'aman@123');
+      const isPassHashMatch = (inputPassHash === customCreds.passHash || inputPassHash === window.DEFAULT_PASS_HASH || (customCreds.pass && rawPass === customCreds.pass) || rawPass === 'aman@123');
 
       if (isUserMatch && isPassHashMatch) {
         window.resetFailedAttempts();

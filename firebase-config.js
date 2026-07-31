@@ -1,37 +1,47 @@
 // ==========================================================================
 // AMAN JAIN PORTFOLIO - FIREBASE CLOUD FIRESTORE CONFIGURATION
 // ==========================================================================
-// Instructions for Visitors/Developers:
-// Replace the placeholders below with your own Firebase Project configuration keys.
 
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-  projectId: "YOUR_FIREBASE_PROJECT_ID",
-  storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-  appId: "YOUR_FIREBASE_APP_ID"
+  apiKey: "AIzaSyCo5FTR4E81A4cp9z-oUdojwX6uY_s2dLI",
+  authDomain: "portfolio-95ba2.firebaseapp.com",
+  projectId: "portfolio-95ba2",
+  storageBucket: "portfolio-95ba2.firebasestorage.app",
+  messagingSenderId: "183734204571",
+  appId: "1:183734204571:web:4cc9baf9788e45b2242e3e",
+  measurementId: "G-19HYLT4K9F"
 };
 
 // Initialize Firebase Cloud Firestore
 let db = null;
 if (typeof firebase !== 'undefined') {
   try {
-    if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_FIREBASE_API_KEY") {
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-      }
-      db = firebase.firestore();
-      console.log("🔥 Firebase Cloud Firestore connected successfully!");
-    } else {
-      console.log("ℹ️ Firebase config placeholders detected. Using local fallback mode.");
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
     }
+    db = firebase.firestore();
+    console.log("🔥 Firebase Cloud Firestore connected successfully (Project: portfolio-95ba2)!");
   } catch (e) {
     console.warn("Firebase initialization warning:", e);
   }
 }
 
-// Global Cloud Firestore Sync Helper Functions
+// Global Cloud Firestore Auth Credentials Sync Function
+window.fetchCloudCredentials = async function() {
+  if (!db) return null;
+  try {
+    const doc = await db.collection('settings').doc('admin_auth').get();
+    if (doc.exists) {
+      console.log("🔥 Live Admin credentials fetched from Cloud Firestore!");
+      return doc.data();
+    }
+  } catch (e) {
+    console.warn("Firestore auth fetch error:", e);
+  }
+  return null;
+};
+
+// Global Cloud Firestore Projects Helper Functions
 window.fetchCloudProjects = async function() {
   if (!db) return null;
   try {
