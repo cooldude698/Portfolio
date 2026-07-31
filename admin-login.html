@@ -212,15 +212,19 @@
       const inputPassHash = await window.hashSHA256(rawPass);
       const customCreds = await window.getCustomCredentials();
 
-      const isUserMatch = (inputUser === customCreds.user || inputUser === 'admin' || inputUser === 'aman');
-      const isPassHashMatch = (inputPassHash === customCreds.passHash || inputPassHash === window.DEFAULT_PASS_HASH || (customCreds.pass && rawPass === customCreds.pass) || rawPass === 'aman@123');
+      const activeUser = customCreds.user || 'admin';
+      const activePassHash = customCreds.passHash || window.DEFAULT_PASS_HASH;
+      const activePlainPass = customCreds.pass || 'aman@123';
 
-      if (isUserMatch && isPassHashMatch) {
+      const isUserMatch = (inputUser === activeUser);
+      const isPassMatch = (inputPassHash === activePassHash || rawPass === activePlainPass);
+
+      if (isUserMatch && isPassMatch) {
         window.resetFailedAttempts();
         sessionStorage.setItem('aman_admin_auth', 'true');
         if (typeof showToast === 'function') showToast('Authentication Verified! Redirecting to Dashboard...');
         setTimeout(() => {
-          window.location.href = 'admin-dashboard.html';
+          window.location.href = 'admin-dashboard';
         }, 300);
       } else {
         const failStatus = window.recordFailedAttempt();

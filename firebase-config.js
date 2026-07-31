@@ -32,11 +32,11 @@ window.fetchCloudCredentials = async function() {
   try {
     const doc = await db.collection('settings').doc('admin_auth').get();
     if (doc.exists) {
-      console.log("🔥 Live Admin credentials fetched from Cloud Firestore!");
+      console.log("🔥 Live Admin credentials fetched from Cloud Firestore:", doc.data().user);
       return doc.data();
     }
   } catch (e) {
-    console.warn("Firestore auth fetch error:", e);
+    console.warn("⚠️ Firestore auth fetch error (Check Firestore Security Rules in Firebase Console):", e);
   }
   return null;
 };
