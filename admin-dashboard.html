@@ -56,10 +56,10 @@
           <span>View Site</span>
         </a>
 
-        <button class="btn btn-primary" onclick="window.handleAdminLogout()" title="Logout Admin Session">
+        <a href="admin-login.html" class="btn btn-primary" onclick="sessionStorage.removeItem('aman_admin_auth');" title="Logout Admin Session">
           <i class="fa-solid fa-right-from-bracket"></i>
           <span>Logout</span>
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -76,15 +76,15 @@
           </div>
 
           <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-outline" id="changeCredentialsBtn" onclick="window.openSecurityModal(); return false;" style="font-size: 0.82rem;" title="Change Admin Username & Password">
+            <a href="admin-credentials.html" class="btn btn-outline" style="font-size: 0.82rem;" title="Change Admin Username & Password">
               <i class="fa-solid fa-user-shield"></i> Change Credentials
-            </button>
+            </a>
             <button class="btn btn-outline" onclick="window.restoreDefaultProjects()" style="font-size: 0.82rem;" title="Reset default projects (NutriLumen, Drishti AI, Rawgenn Tech)">
               <i class="fa-solid fa-rotate-left"></i> Restore Defaults
             </button>
-            <button class="btn btn-outline" onclick="window.handleAdminLogout()" title="Logout Admin Session">
+            <a href="admin-login.html" class="btn btn-outline" onclick="sessionStorage.removeItem('aman_admin_auth');" title="Logout Admin Session">
               <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </button>
+            </a>
           </div>
         </div>
 
