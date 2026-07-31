@@ -172,7 +172,11 @@
         }
         if (status.attemptsLeft < 5 && errorAlert && errorMsg) {
           errorAlert.classList.remove('hidden');
+          errorAlert.style.background = 'rgba(255, 77, 77, 0.15)';
+          errorAlert.style.borderColor = 'rgba(255, 77, 77, 0.4)';
           errorMsg.innerHTML = `⚠️ Invalid credentials. <strong>${status.attemptsLeft} attempts remaining</strong> before 15-min security lock.`;
+        } else if (errorAlert) {
+          errorAlert.classList.add('hidden');
         }
       }
     };
