@@ -1016,7 +1016,7 @@ window.runTerminalCmd = function(cmdText) {
       education: 'B.Tech (CS) @ Jain University (CGPA: 8.95, Grad: 2029) | 12th CBSE @ Alpine Public (79%) | 10th CBSE @ DPS Aligarh (80%)',
       skills: 'Languages: C, C++, Python, Java, JS | Frameworks: React, Next.js, Node, Express, Tailwind | Databases: MongoDB, MySQL, Firebase | AI/LLM Integration',
       projects: '1. NutriLumen (thenutrilumen.com) | 2. Drishti AI (drishtiii.vercel.app) | 3. Rawgenn Tech (rawgenn.tech)',
-      achievements: 'Winner of 7-8 College-Level Events | 2nd Prize CRCE Hackathon (8 Campuses) | 2nd Prize Enigma Hackathon | Top 800 / 32,000+ Scaler x Meta Hackathon',
+      achievements: 'Finalist Odoo Hackathon 2026 (Top 20,000+ applicants) | Top 800 / 32,000+ Scaler x Meta Hackathon | 2nd Prize CRCE Hackathon (8 Campuses) | 2nd Prize Enigma Hackathon | Winner of 7-8 College Events',
       quote: '"Code is like humor. When you have to explain it, it\'s bad." — Cory House',
       contact: 'Email: aj2194078@gmail.com | Phone: +91 9936870833 | GitHub: github.com/cooldude698 | Location: Bangalore, Karnataka',
       clear: 'CLEAR_ACTION'
@@ -1410,6 +1410,7 @@ function initCVModal() {
           <li>2nd Prize – CRCE Entrepreneurship Hackathon, a multi-campus competition across 8 campuses.</li>
           <li>2nd Prize – Enigma Hackathon, organized by the Enigma college club.</li>
           <li>Selected among top 800 teams from 32,000+ participants in the Scaler x Meta Hackathon and advanced to the final round.</li>
+          <li>Finalist – Odoo Hackathon 2026, selected from 20,000+ applicants; advancing to the 24-hour Grand Finale at Odoo India HQ, Gandhinagar (September 2026).</li>
         </ul>
 
         <div class="cv-section-heading">Languages Known</div>
@@ -1489,7 +1490,8 @@ ACHIEVEMENTS:
 - Winner of 7-8 college-level events competing against 50+ teams
 - 2nd Prize CRCE Entrepreneurship Hackathon (8 campuses)
 - 2nd Prize Enigma Hackathon
-- Top 800 teams out of 32,000+ Scaler x Meta Hackathon`;
+- Top 800 teams out of 32,000+ Scaler x Meta Hackathon
+- Finalist - Odoo Hackathon 2026 (Selected from 20,000+ applicants to Grand Finale at Odoo India HQ)`;
 
       navigator.clipboard.writeText(text).then(() => {
         if (typeof showToast === 'function') {
